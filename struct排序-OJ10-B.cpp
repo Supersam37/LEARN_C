@@ -9,7 +9,7 @@ struct sentry{
 	int num0;
 	int numh;
 }list[MAX_N];
-int cmp1(const void *a,const void *b);
+int cmp1(const void *a1,const void *b1);
 int cmp2(const void *a,const void *b);
 
 int main(){
@@ -34,10 +34,21 @@ int main(){
 	
 }
 //快排函数 
-int cmp1(const void *a,const void *b){
-	return ((*(struct sentry*)a).talld<(*(struct sentry*)b).talld)?1:-1;
+int cmp1(const void *a1,const void *b1){
+	struct sentry *a = (struct sentry*)a1;//强制类型转换 
+	struct sentry *b = (struct sentry*)b1;
+	return (a->talld<b->talld)?1:-1;
 }
 
 int cmp2(const void *a,const void *b){
 	return ((*(struct sentry*)a).num0>(*(struct sentry*)b).num0)?1:-1;
 }
+
+//cmp错误写法？ 
+//int cmp1(const struct sentry *a,const struct sentry *b){
+//	return (a->talld<b->talld)?1:-1;
+//}
+//
+//int cmp2(const void *a,const void *b){
+//	return ((*(struct sentry*)a).num0>(*(struct sentry*)b).num0)?1:-1;
+//}
