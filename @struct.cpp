@@ -15,6 +15,6 @@ main(){
 	int i = 0;
 	struct student *p;
 	printf("NO\tNAME\n");
-	for(int i = 0;i<3;i++)
-	printf("%d\t%s\n",stu[i].num,stu[i].name);
+	for(p=stu;p<stu+3;p++)
+	printf("%d\t%s\n",p->num,p->name);
 }
