@@ -1,3 +1,3 @@
 This repository is for learning language C.
 ##2018-5-23
-using git.
+Using git.
