@@ -40,7 +40,21 @@ main(){
 	float f;
 	sscanf("1.23456789123 1.23456789123 1.23456789123","%f %f %lf",&f,&f1,&f2);
 	printf("%.12f %.12f %.12f\n",f,f1,f2);
-	//%f以float形式读入，若指针为double会强制转换出现错误，故double型必须用%lf; （%f!=%lf） 
+	//%f以float形式读入，若指针为double会强制转换出现错误，故double型必须用%lf; （%f!=%lf）
+	
+//其他字符输入/输出
+
+	//fgetc(FILE *stream) 
+	//getchar()
+	//fgets(char *s, int n, FILE *stream)  会读入换行符 
+	//gets(char *s)  不读入换行符 
+	
+	//fputc(int c, FILE *stream)
+	//putchar(int c)
+	//fputs(const char *s, FILE *stream)  不包含换行符 
+	//puts(const char *s)  自动输出换行符 
+	
+	//ungetc(int c, FILE *stream)  向 stream写回字符c 
 } 
 
 /*
