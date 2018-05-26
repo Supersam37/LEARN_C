@@ -10,7 +10,7 @@ int main(){
 		scanf("%d %d",&low[i],&high[i]);
 	}
 	for(int i = 0;i<n;i++){
-		sum[i] = count(high[i],n)*high[i];
+		sum[i] = count(high[i],n)*((long long)high[i]);// extremely important!!!!!
 	}
 	long long max = 0;
 	for(int i = 0;i<n;i++){
@@ -18,7 +18,7 @@ int main(){
 			max = sum[i];
 		}
 	}
-	printf("%ld",max);
+	printf("%lld",max);
 }
 
 int count(int x,int n){
