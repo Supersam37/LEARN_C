@@ -1,7 +1,7 @@
 #include<stdio.h>
 int high[1005];
 int low[1005];
-long long sum[1005];
+long long sum[2010];
 int count(int x,int n);
 int main(){
 	int n;
@@ -12,8 +12,11 @@ int main(){
 	for(int i = 0;i<n;i++){
 		sum[i] = count(high[i],n)*((long long)high[i]);// extremely important!!!!!
 	}
-	long long max = 0;
 	for(int i = 0;i<n;i++){
+		sum[i+n] = count(low[i],n)*low[i];
+	}
+	long long max = 0;
+	for(int i = 0;i<2*n;i++){
 		if(sum[i]>max){
 			max = sum[i];
 		}
