@@ -34,142 +34,117 @@ int print() {
         } 
         printf("|\n"); 
         for(j = 0; j < MAX; j++){
-        	printf("|____");
+        	printf("|----");
 		}     
         printf("|\n");
     }
 }       
 
 int move_up() {
-    int x, y, i;
-    for(y = 0; y < MAX; y++) {     
-        for(x = 0; x < MAX; x++) {
-            if(a[x][y] != 0){
-                for(i = x + 1; i < MAX; i++) {
-                    if(a[i][y] == 0)
-                        ;
-                    else if(a[x][y] == a[i][y]) {
-                        a[x][y] += a[i][y];
-                        a[i][y] = 0;
-                        NUM++;
-                        x = i;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                } 
-            }
-        }
-    }
-
-    for(y = 0; y < MAX; ++y)   
-        for(x = 0; x < MAX; ++x) {
-            if(a[x][y] != 0) {
-                for(i = x; (i > 0) && (a[i - 1][y] == 0); i--) {
-                    a[i - 1][y] = a[i][y];
-                    a[i][y] = 0;
-                }
-            }
-        }
+	for(int j = 0;j<MAX;j++){
+		for(int i = 0;i<MAX;i++){
+			if(a[i][j]!=0){
+				for(int k = i+1;k<MAX;k++){
+					if(a[i][j]==a[k][j]){
+						a[i][j]*=2;
+						a[k][j] = 0;
+						NUM++;
+						i = k;
+						break;
+					}
+				}
+			}
+		}
+		
+		for(int i = 1;i<MAX;i++){
+			if(a[i][j]!=0){
+				for(int k = i;k>0&&a[k-1][j]==0;k--){
+					a[k-1][j] = a[k][j];
+					a[k][j] = 0;
+				}
+			}
+		}
+	}
 }
-int move_down() {
-    int x, y, i;
-    
-    for(y = 0; y < MAX; ++y) 
-        for(x = MAX-1; x >= 0; --x) {
-            if(a[x][y] != 0){
-                for(i = x - 1; i >= 0; --i) {
-                    if(a[i][y] == 0)
-                        ;
-                    else if(a[x][y] == a[i][y]) {
-                        a[x][y] += a[i][y];
-                        a[i][y] = 0;
-                        NUM++;
-                        x = i;
-                        break;
-                    }
-                    else
-                        break;
-                }
-            }
-        }
-        
-    for(y = 0; y < MAX; ++y)  
-        for(x = MAX-1; x >= 0; --x) {
-           	if(a[x][y] != 0) {
-                for(i = x; (i < MAX-1) && (a[i + 1][y] == 0); ++i) {
-                    a[i + 1][y] = a[i][y];
-                    a[i][y] = 0;
-                }
-            }
-        }        
+int move_down() {	
+	for(int j = 0;j<MAX;j++){
+		for(int i = MAX-1;i>=0;i--){
+			if(a[i][j]!=0){
+				for(int k = i-1;k>=0;k--){
+					if(a[i][j]==a[k][j]){
+						a[i][j]*=2;
+						a[k][j] = 0;
+						NUM++;
+						i = k;
+						break;
+					}
+				}
+			}
+		}
+		
+		for(int i = MAX-2;i>=0;i--){
+			if(a[i][j]!=0){
+				for(int k = i;k<MAX-1&&a[k+1][j]==0;k++){
+					a[k+1][j] = a[k][j];
+					a[k][j] = 0;
+				}
+			}
+		}
+	}     
 }
 
 int move_left() {
-    int x, y, i;
-    
-    for(x = 0; x < MAX; ++x)  
-        for(y = 0; y < MAX; ++y) {
-            if(a[x][y] != 0){
-                for(i = y + 1; i < MAX; ++i) {
-                    if(a[x][i] == 0)
-                        ;
-                    else if(a[x][y] == a[x][i]) {
-                        a[x][y] += a[x][i];
-                        a[x][i] = 0;
-                        NUM++;
-                        y = i;
-                        break;
-                    }
-                    else
-                        break;
-                }
-            }
-        }
-        
-    for(x = 0; x < MAX; ++x)  
-        for(y = 0; y < MAX; ++y) {
-            if(a[x][y] != 0){
-                for(i = y; (i > 0) && (a[x][i - 1] == 0); --i) {
-                    a[x][i - 1] = a[x][i];
-                    a[x][i] = 0;
-                }
-            }
-        }
+	for(int j = 0;j<MAX;j++){
+		for(int i = 0;i<MAX;i++){
+			if(a[j][i]!=0){
+				for(int k = i+1;k<MAX;k++){
+					if(a[j][i]==a[j][k]){
+						a[j][i]*=2;
+						a[j][k] = 0;
+						NUM++;
+						i = k;
+						break;
+					}
+				}
+			}
+		}
+		
+		for(int i = 1;i<MAX;i++){
+			if(a[j][i]!=0){
+				for(int k = i;k>0&&a[j][k-1]==0;k--){
+					a[j][k-1] = a[j][k];
+					a[j][k] = 0;
+				}
+			}
+		}
+	}
 }
 
 int move_right() {
-    int x, y, i;
-    
-    for(x = 0; x < MAX; ++x)  
-        for(y = MAX-1; y >= 0; --y) {
-            if(a[x][y] != 0){
-                for(i = y - 1; i >= 0; --i) {
-                    if(a[x][i] == 0)
-                        ;
-                    else if(a[x][y] == a[x][i]) {
-                        a[x][y] += a[x][i];
-                        a[x][i] = 0;
-                        NUM++;
-                        y = i;
-                        break;
-                    }
-                    else
-                        break;
-                }
-            }
-        } 
-        
-    for(x = 0; x < MAX; ++x)   
-        for(y = MAX-1; y >= 0; --y) {
-            if(a[x][y] != 0){
-                for(i = y; (i < MAX-1) && (a[x][i + 1] == 0); ++i) {
-                    a[x][i + 1] = a[x][i];
-                    a[x][i] = 0;
-                }
-            }
-        }
+	for(int j = 0;j<MAX;j++){
+		for(int i = MAX-1;i>=0;i--){
+			if(a[j][i]!=0){
+				for(int k = i-1;k>=0;k--){
+					if(a[j][i]==a[j][k]){
+						a[j][i]*=2;
+						a[j][k] = 0;
+						NUM++;
+						i = k;
+						break;
+					}
+				}
+			}
+		}
+		
+		for(int i = MAX-2;i>=0;i--){
+			if(a[j][i]!=0){
+				for(int k = i;k<MAX-1&&a[j][k+1]==0;k++){
+					a[j][k+1] = a[j][k];
+					a[j][k] = 0;
+				}
+			}
+		}
+	}     
 }
 
 int gen() {
@@ -279,11 +254,11 @@ int play() {
 int main() {
     char m;   
     A:FLAG = 0; 
-    printf("____________________________________________________________________________\n"); 
+    printf("____________________________________________________________________________\n\n"); 
     printf("                                    2048                                    \n"); 
-    printf("____________________________________________________________________________\n");
+    printf("____________________________________________________________________________\n\n");
     printf("Rules: enter W/w  A/a  S/s  D/d to move or E/e to exit\n");
-    printf("____________________________________________________________________________\n"); 
+    printf("____________________________________________________________________________\n\n"); 
     printf("Please enter the size :(NOTE: size must be smaller than 9 and bigger than 1)\n"); 
     m = getch();
     MAX = m-'0';
