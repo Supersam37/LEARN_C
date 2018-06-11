@@ -3,10 +3,22 @@
 #include <time.h>             
 #include <windows.h>
 #include <conio.h>
+#define MAXN 11
 int MAX; 
 int FLAG;  
-int a[11][11];
+int a[MAXN][MAXN];
 int NUM;
+int score_now;
+
+int score(){
+	int sum = 0;
+	for(int i = 0;i<MAXN;i++){
+		for(int j = 0;j<MAXN;j++){
+			sum+=a[i][j];
+		}
+	}
+	return sum;
+} 
 int start() {
 	for(int i = 0;i<MAX;i++)
 		for(int j = 0;j<MAX;j++) 
@@ -16,6 +28,7 @@ int start() {
     int x = rand()%MAX;
     int y = rand()%MAX;        
     a[x][y] = 2;
+    score_now+=2;
     return 0;
 }  
     
@@ -38,9 +51,11 @@ int print() {
 		}     
         printf("|\n");
     }
+    printf("Your score : %d\n",score_now);
 }       
 
 int move_up() {
+	int result = 0;
 	for(int j = 0;j<MAX;j++){
 		for(int i = 0;i<MAX;i++){
 			if(a[i][j]!=0){
@@ -50,6 +65,7 @@ int move_up() {
 						a[k][j] = 0;
 						NUM++;
 						i = k;
+						result = 1;
 						break;
 					}
 				}
@@ -61,12 +77,15 @@ int move_up() {
 				for(int k = i;k>0&&a[k-1][j]==0;k--){
 					a[k-1][j] = a[k][j];
 					a[k][j] = 0;
+					result = 1;
 				}
 			}
 		}
 	}
+	return result;
 }
-int move_down() {	
+int move_down() {
+	int result = 0;	
 	for(int j = 0;j<MAX;j++){
 		for(int i = MAX-1;i>=0;i--){
 			if(a[i][j]!=0){
@@ -76,6 +95,7 @@ int move_down() {
 						a[k][j] = 0;
 						NUM++;
 						i = k;
+						result = 1;
 						break;
 					}
 				}
@@ -87,13 +107,16 @@ int move_down() {
 				for(int k = i;k<MAX-1&&a[k+1][j]==0;k++){
 					a[k+1][j] = a[k][j];
 					a[k][j] = 0;
+					result = 1;
 				}
 			}
 		}
-	}     
+	}   
+	return result;  
 }
 
 int move_left() {
+	int result = 0;
 	for(int j = 0;j<MAX;j++){
 		for(int i = 0;i<MAX;i++){
 			if(a[j][i]!=0){
@@ -103,6 +126,7 @@ int move_left() {
 						a[j][k] = 0;
 						NUM++;
 						i = k;
+						result = 1;
 						break;
 					}
 				}
@@ -114,13 +138,16 @@ int move_left() {
 				for(int k = i;k>0&&a[j][k-1]==0;k--){
 					a[j][k-1] = a[j][k];
 					a[j][k] = 0;
+					result = 1;
 				}
 			}
 		}
 	}
+	return result;
 }
 
 int move_right() {
+	int result = 0;
 	for(int j = 0;j<MAX;j++){
 		for(int i = MAX-1;i>=0;i--){
 			if(a[j][i]!=0){
@@ -130,6 +157,7 @@ int move_right() {
 						a[j][k] = 0;
 						NUM++;
 						i = k;
+						result = 1;
 						break;
 					}
 				}
@@ -141,10 +169,12 @@ int move_right() {
 				for(int k = i;k<MAX-1&&a[j][k+1]==0;k++){
 					a[j][k+1] = a[j][k];
 					a[j][k] = 0;
+					result = 1;
 				}
 			}
 		}
-	}     
+	}    
+	return result; 
 }
 
 int gen() {
@@ -161,26 +191,30 @@ int gen() {
 		}
         num = rand();
         int set = num % 2;
-        if(set == 1)   
-            a[x][y] = 2; 
-        if(set == 0) 
-            a[x][y] = 4;
+        if(set == 1){
+        	a[x][y] = 2; 
+        	score_now+=2;
+		}    
+        if(set == 0){
+        	a[x][y] = 4;
+        	score_now+=4; 
+		} 
         NUM--;
     }
 
 }
 
 int play() {
-    int move;
+    int move,result;
     char choise;
     move = getch();
     switch(move) {
         case 'w': case 'W':
-            move_up(); 
+            result = move_up(); 
             system("cls");
-            gen(); 
+            if(result==1) gen(); 
             print();
-            if(NUM==0) {
+            if(NUM==0&&result==0) {
             	C:printf("Gameover\n");
             	printf("Try again? (Y/N)\n");
             	choise = getch();
@@ -192,11 +226,11 @@ int play() {
 			}
             break;
         case 's': case 'S':
-            move_down();
+            result = move_down();
             system("cls");
-            gen(); 
+            if(result==1) gen(); 
             print(); 
-            if(NUM==0) {
+            if(NUM==0&&result==0) {
             	D:printf("Gameover\n");
             	printf("Try again? (Y/N)\n");
             	choise = getch();
@@ -208,11 +242,11 @@ int play() {
 			}
             break;
         case 'a': case 'A':
-            move_left();
+            result = move_left();
             system("cls");
-            gen(); 
+            if(result==1) gen(); 
             print();
-            if(NUM==0) {
+            if(NUM==0&&result==0) {
             	E:printf("Gameover\n");
             	printf("Try again? (Y/N)\n");
             	choise = getch();
@@ -224,11 +258,11 @@ int play() {
 			}
             break;
         case 'd': case 'D':
-            move_right();
+            result = move_right();
             system("cls");
-            gen(); 
+            if(result==1) gen(); 
             print();
-            if(NUM==0) {
+            if(NUM==0&&result==0) {
             	F:printf("Gameover\n");
             	printf("Try again? (Y/N)\n");
             	choise = getch();
@@ -253,7 +287,7 @@ int play() {
 
 int main() {
     char m;   
-    A:FLAG = 0; 
+    A:FLAG = 0,score_now = 0; 
     printf("____________________________________________________________________________\n\n"); 
     printf("                                    2048                                    \n"); 
     printf("____________________________________________________________________________\n\n");
